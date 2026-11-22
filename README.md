@@ -22,7 +22,7 @@ Play [CircuitLord's Titanfall 2 VR mod](https://github.com/CircuitLord/CircuitLo
 1. **Start Titanfall 2 once from Steam, the normal way.** Sign in to the EA app, wait for the main menu, then quit.
 2. **Run the installer:**
    ```sh
-   git clone https://github.com/Monkellie/tf2vr-linux.git
+   git clone https://github.com/a-Digi-a/tf2vr-linux.git
    cd tf2vr-linux
    ./install.sh
    ```
@@ -36,7 +36,7 @@ If you own Titanfall 2 on the EA app and run it with Proton through Faugus, Hero
 1. **In your launcher, install the EA app and sign in, then install Titanfall 2 with it** (on any drive, an SD card included) and start the game once the normal way. Then quit.
 2. **Run the installer:**
    ```sh
-   git clone https://github.com/Monkellie/tf2vr-linux.git
+   git clone https://github.com/a-Digi-a/tf2vr-linux.git
    cd tf2vr-linux
    ./install.sh
    ```
@@ -114,7 +114,7 @@ Run `./install.sh --uninstall`. Your VR campaign saves are kept. It also deletes
 | `Proton's Wine can't run directly on this system` | You're on an ARM device. ([see here](#can-i-play-on-a-steam-frame-or-other-arm-device)) |
 | `install.sh`: `glibc … is too old` | Your distro release is too old for the current Proton. Upgrade to one with glibc 2.38 or newer. ([which ones](#which-headsets-and-distros-work)) |
 
-**Still stuck?** [Open an issue](https://github.com/Monkellie/tf2vr-linux/issues) with these files. Collect them after the game has closed, or they'll be cut off:
+**Still stuck?** [Open an issue](https://github.com/a-Digi-a/tf2vr-linux/issues) with these files. Collect them after the game has closed, or they'll be cut off:
 - `~/.local/state/tf2vr/launch.log`, and `~/.local/state/tf2vr/ea-app.log` if VR didn't start (Proton's VR setup messages)
 - `Titanfall2/TF2VR/plugins/Titanfall2VR-data/engine.txt`
 - the newest `Titanfall2/TF2VR/logs/nslog*.txt`
@@ -149,7 +149,7 @@ Keep Steam (or your launcher) and VR on the same Proton. Normal and VR launches 
 
 It won't use a build that can't run the mod:
 - no VR support (`wineopenxr.dll` and `vrclient_x64.dll`), like Proton 4.11
-- DXVK `v3.1.1-60` to `v3.1.1-67` (Proton Experimental and Hotfix from about 5 to 13 October 2026). That DXVK can finish a frame before the game has submitted the right eye's rendering, so the headset shows the right eye one frame late ([#4](https://github.com/Monkellie/tf2vr-linux/issues/4), found by Molier). `tf2vr` warns at launch too.
+- DXVK `v3.1.1-60` to `v3.1.1-67` (Proton Experimental and Hotfix from about 5 to 13 October 2026). That DXVK can finish a frame before the game has submitted the right eye's rendering, so the headset shows the right eye one frame late ([#4](https://github.com/a-Digi-a/tf2vr-linux/issues/4), found by Molier). `tf2vr` warns at launch too.
 - a newer glibc than your system has ([which distros](#which-headsets-and-distros-work))
 
 `./install.sh --check` lists what it found, and `launch.log` shows which Proton and DXVK each launch used.
@@ -226,9 +226,9 @@ Streaming a Steam Frame to Linux SteamVR hasn't been tested with these scripts y
 
 Yes, with WiVRn or Monado as your OpenXR runtime. Start it and connect the headset, then run `tf2vr`. The launcher only starts SteamVR when SteamVR is your OpenXR runtime.
 
-Proton needs one more piece: an **OpenVR bridge**, xrizer or OpenComposite. Before the game can use OpenXR, Proton starts the OpenVR runtime named in `~/.config/openvr/openvrpaths.vrpath` to ask which Vulkan extensions VR needs. Without one that starts, Proton's OpenXR refuses to load (`negotiation failed with error -6` in `TF2VR/crashes/…/stderr.txt`), and the game crashes with `0xC0000409` ([#11](https://github.com/Monkellie/tf2vr-linux/issues/11)). SteamVR only works as the bridge while it's running.
+Proton needs one more piece: an **OpenVR bridge**, xrizer or OpenComposite. Before the game can use OpenXR, Proton starts the OpenVR runtime named in `~/.config/openvr/openvrpaths.vrpath` to ask which Vulkan extensions VR needs. Without one that starts, Proton's OpenXR refuses to load (`negotiation failed with error -6` in `TF2VR/crashes/…/stderr.txt`), and the game crashes with `0xC0000409` ([#11](https://github.com/a-Digi-a/tf2vr-linux/issues/11)). SteamVR only works as the bridge while it's running.
 
-- **WiVRn Flatpak:** brings its own bridge and registers it when it starts. It needs to be allowed to write to `~/.config/openxr` and `~/.config/openvr` to do that ([#5](https://github.com/Monkellie/tf2vr-linux/issues/5)). `install.sh` checks, and prints the command if it can't:
+- **WiVRn Flatpak:** brings its own bridge and registers it when it starts. It needs to be allowed to write to `~/.config/openxr` and `~/.config/openvr` to do that ([#5](https://github.com/a-Digi-a/tf2vr-linux/issues/5)). `install.sh` checks, and prints the command if it can't:
   ```
   flatpak override --user --filesystem=xdg-config/openxr:create --filesystem=xdg-config/openvr:create io.github.wivrn.wivrn
   ```
@@ -241,11 +241,11 @@ The bridge starts your OpenXR runtime, so WiVRn or Monado has to be running with
 
 Tested on PikaOS (Debian sid) on Wayland, with an NVIDIA GPU, a Valve Index, SteamVR, GE-Proton11-11, mod 1.0.27 beta and Northstar 1.31.13 (earlier: Proton Experimental 11.0 and mod 1.0.10). The main menu and the campaign run in VR with tracked controllers and audio.
 
-- **Other headsets:** polar421 has played the campaign on a Quest 3S through WiVRn with a similar setup. With these scripts, it works on CachyOS with WiVRn and a Quest 2 ([#9](https://github.com/Monkellie/tf2vr-linux/issues/9)), and on Bazzite with the WiVRn Flatpak and no SteamVR ([#5](https://github.com/Monkellie/tf2vr-linux/issues/5)).
+- **Other headsets:** polar421 has played the campaign on a Quest 3S through WiVRn with a similar setup. With these scripts, it works on CachyOS with WiVRn and a Quest 2 ([#9](https://github.com/a-Digi-a/tf2vr-linux/issues/9)), and on Bazzite with the WiVRn Flatpak and no SteamVR ([#5](https://github.com/a-Digi-a/tf2vr-linux/issues/5)).
 - **Other distros:** anything x86_64 with **glibc 2.38 or newer** should work: Ubuntu 24.04+, Linux Mint 22+, Pop!_OS 24.04+, Debian 13+, Fedora 39+, and current Arch and its derivatives (see the [Arch notes](#arch-cachyos-and-other-arch-based-distros)). Steam runs Proton inside its own runtime, which brings a newer glibc, but these scripts run Proton outside it, so your system's glibc has to be new enough. Ubuntu 22.04, Mint 21 and Pop!_OS 22.04 (2.35) and Debian 12 (2.36) are too old. `install.sh` checks this.
 - **Untested:** SteamOS on x86 (Steam Deck), Flatpak Steam (`~/.var/app/com.valvesoftware.Steam/.local/share/Steam`), and EA-app copies through Faugus, Heroic, Lutris or Bottles.
 - **Two GPUs:** the game has to render on a GPU that has a monitor attached, and it has to be the same GPU your VR runtime uses.
-- **Controllers on Monado and WiVRn:** the mod has full input bindings only for **Valve Index** and **Oculus/Meta Touch** controllers, plus OpenXR's generic profile (hand position, select and menu only). SteamVR remaps any controller onto those, so on SteamVR everything works. Monado and WiVRn don't remap, so Vive wands, WMR controllers and others may get no input in the game ([#2](https://github.com/Monkellie/tf2vr-linux/issues/2)). Adding them needs a change in the mod itself; tell CircuitLord on the [mod's Discord](https://discord.gg/MTKwud2cCP).
+- **Controllers on Monado and WiVRn:** the mod has full input bindings only for **Valve Index** and **Oculus/Meta Touch** controllers, plus OpenXR's generic profile (hand position, select and menu only). SteamVR remaps any controller onto those, so on SteamVR everything works. Monado and WiVRn don't remap, so Vive wands, WMR controllers and others may get no input in the game ([#2](https://github.com/a-Digi-a/tf2vr-linux/issues/2)). Adding them needs a change in the mod itself; tell CircuitLord on the [mod's Discord](https://discord.gg/MTKwud2cCP).
 
 Reports welcome.
 
